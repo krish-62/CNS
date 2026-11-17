@@ -14,3 +14,12 @@ data += bytes([padding]) * padding
 encrypted = cipher.encrypt(data)
 
 print("Encrypted text:", encrypted.hex())
+
+cipher = DES.new(key, DES.MODE_ECB)
+
+decrypted = cipher.decrypt(encrypted)
+
+# Remove padding
+decrypted = decrypted[:-decrypted[-1]]
+
+print("Decrypted text:", decrypted.decode())
