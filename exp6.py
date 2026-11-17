@@ -1,15 +1,16 @@
-from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad, unpad
+from Crypto.Cipher import DES
 
-key = b'1234567890abcdef'
-text = input("Enter Text: ")
+key = b"12345678"
 
-cipher = AES.new(key, AES.MODE_ECB)
-encrypted = cipher.encrypt(pad(text.encode(), 16))
+cipher = DES.new(key, DES.MODE_ECB)
 
-print("Encrypted:", encrypted.hex())
+text = input("Enter text to encrypt: ")
 
-cipher = AES.new(key, AES.MODE_ECB)
-decrypted = unpad(cipher.decrypt(encrypted), 16)
+# DES requires data in blocks of 8 bytes
+data = text.encode()
+padding = 8 - (len(data) % 8)
+data += bytes([padding]) * padding
 
-print("Decrypted:", decrypted.decode())
+encrypted = cipher.encrypt(data)
+
+print("Encrypted text:", encrypted.hex())
